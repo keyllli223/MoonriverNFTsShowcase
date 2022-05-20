@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Moonriver Grant Hackathon</title>
+	<link rel="stylesheet" href="./css/styles.css">
+	<link rel="stylesheet" href="./css/styles-mynfts.css">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap" rel="stylesheet"> 
+
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/web3/1.7.0-rc.0/web3.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/ipfs-core/dist/index.min.js"></script>
+	<script src="./js/font-awesome.js" crossorigin="anonymous"></script>
+	<script src="./js/config.js" crossorigin="anonymous"></script>
+	<script src="./js/bundle.js"></script>
+
+	<link rel="shortcut icon" href="./images/favicon.ico" /> 
+
+</head>
+<body>
+	
+	<header>
+		<div class="wrapper">
+			<nav>
+				<ul class="menu">
+					<li><a href="./">Home</a></li>
+					<li class="active"><a href="./nfts.html">NFT Collection Showcase</a></li>
+					<li><a href="./mint.html">Mint NFT</a></li>
+					<li><a href="./gallery.html">3D gallery</a></li>
+				</ul>
+
+
+			</nav>
+		</div>
+	</header>
+	
+	<main>
+		<div class="wrapper">
+			<div class="content" id="main-block">
+				<h1>NFT Collection Showcase</h1>
+
+				<div id="mynftsDivError" class="hidden"></div>
+
+				<div id="noUrlParamBlock" class="hidden">
+					<input id="inputWallet" type="text" placeholder="Moonriver wallet address">
+		            <button id="searchBtn">Search</button>
+		            <div id="createLinkBlock" class="hidden"></div>
+				</div>
+
+				<div id="urlParamBlock">
+					<div class="lds-facebook"><div></div><div></div><div></div></div>
+				</div>
+
+
+				<div id="collectionsListBlock" class="hidden">
+					
+				</div>
+					
+			</div>
+
+			<div class="content hidden" id="collection-block"></div>
+		</div>
+	</main>
+
+	<footer>
+		<div class="wrapper">
+			<div>
+				<p><u><b>NFTs Showcase & Mint Dapp</b></u></p><br>
+				<p>&copy;  2022</p>
+			</div>
+		</div>
+	</footer>
+
+	
+	<script src="./js/sweetalert.js"></script>
+	<script src="./js/script-nft-showcase.js"></script>
+</body>
+
+</html>

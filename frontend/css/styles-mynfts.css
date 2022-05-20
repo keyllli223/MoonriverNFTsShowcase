@@ -1,0 +1,261 @@
+
+
+
+#mynftsDivError {
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    background: #f34949;
+}
+
+#inputWallet, #linkName {
+    display: block;
+    max-width: 90%;
+    width: 500px;
+    padding: 10px;
+    border-radius: 4px;
+    outline: none;
+    border: 1px solid black;
+    margin: auto;
+    margin-top: 20px;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+#inputWallet.error, #linkName.error {
+    border: 2px solid red !important;
+}
+
+
+#searchBtn, #createLinkBtn, #goBack {
+    display: block;
+    max-width: 90%;
+    width: 500px;
+    padding: 10px;
+    border-radius: 4px;
+    outline: none;
+    border: 0px;
+    margin: auto;
+    margin-top: 10px;
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 16px;
+    transition: color 0.3s, background 0.3s;
+}
+
+
+
+#searchBtn:hover, #createLinkBtn:hover, #goBack:hover {   
+    background: #888;
+    color: #000;
+    cursor: pointer;
+}
+
+
+#urlParamBlock {
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    background: #d0cdcd;
+}
+
+#createLinkBlock{
+    line-height: 23px;
+    background: #d0cdcd;
+    padding: 20px;
+    text-align: center;
+    margin: 20px 0px;
+    border-radius: 5px;
+}
+
+#waitingLink{
+    text-align: center;
+    margin: 20px 0px;
+    line-height: 30px;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+#waitingLink.succes {
+    background: green;
+}
+
+#collectionsListBlock {
+    margin-top: 20px;
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-around;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+#collectionsListBlock .collection{
+    width: 240px;
+    overflow: hidden;
+    min-width: 240px;
+    max-width: 100%;
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: #000000b0 0 0 15px 3px;
+}
+
+#collectionsListBlock .collection .image{
+    padding-top: 100%;
+    background-color: #888;
+    background-size: cover;
+}
+
+#collectionsListBlock .collection .info{
+    padding: 20px;
+    padding-bottom: 30px;
+}
+
+#collectionsListBlock .collection .info p{
+    min-height: 32px;
+    margin-bottom: 10px;
+    line-height: 21px;
+}
+
+
+
+
+
+
+
+
+
+/*        One collection block */
+
+
+
+#collection-block .collectionImage {
+    background-color: #888;
+    background-size: cover;
+    margin: auto;
+    width: 200px;
+    height: 200px;
+    background-position: center;
+    border-radius: 5px;
+    border: 3px solid black;
+    margin-bottom: 20px;
+}
+
+
+#collection-block .collectionTitle{
+    margin-bottom: 20px;
+}
+
+#collection-block .collectionAddress{
+    text-align: center;
+}
+
+
+#collection-block #nftsListBlock{
+    margin-top: 30px;
+
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-around;
+}
+
+#collection-block #nftsListBlock .nft{
+    width: 240px;
+    overflow: hidden;
+    min-width: 240px;
+    max-width: 100%;
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: #000000b0 0 0 15px 3px;
+}
+
+#collection-block #nftsListBlock .nft .image{
+    padding-top: 100%;
+    background-color: #888;
+    background-size: cover;
+}
+
+#collection-block #nftsListBlock .nft .info{
+    padding: 20px;
+    padding-bottom: 30px;
+}
+
+#collection-block #nftsListBlock .nft .info p{
+    min-height: 32px;
+    margin-bottom: 10px;
+    line-height: 21px;
+    margin-bottom: 20px ;
+}
+
+.nftAttributesBlock {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+.nftAttributesBlock .nftAttribute {
+    background: #427a9d85;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 5px;
+}
+
+.nftAttributesBlock .nftAttribute p.attribute{
+    font-weight: bold;
+    color: #000;
+}
+
+.nftAttributesBlock .nftAttribute p.attributeValue{
+    color: #fff;
+}
+
+
+
+.lds-facebook {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+.lds-facebook div {
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: #888;
+  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+  left: 8px;
+  animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(3) {
+  left: 56px;
+  animation-delay: 0;
+}
+@keyframes lds-facebook {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%, 100% {
+    top: 24px;
+    height: 32px;
+  }
+}

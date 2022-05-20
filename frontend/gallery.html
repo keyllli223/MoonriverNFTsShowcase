@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Moonriver NFT Gallery</title>
+    <link rel="stylesheet" href="./css/galleryStyles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="./js/Three.js"></script>
+    <script src="./js/cannon.js"></script>
+    <script src="./js/PointerLockControls.js"></script>
+    <script src="./js/config.js"></script>
+    <script src="./js/galleryFunctions.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="shortcut icon" href="./images/favicon.ico" />
+  </head>
+  <body>
+    <div id="info_log_left"></div>
+    <div id="vertline"></div>
+    <div id="horizline"></div>
+
+    <div id="blocker">
+      <div id="instructions">
+        <div class="info">
+          <div id="info_input_data">
+            <label for="">Moonriver wallet address:</label><br />
+            <input type="text" id="walletAddress" />
+            <br /><br />
+          </div>
+
+          <p id="infoLabel"></p>
+          <button id="searchNFT">Search NFTs</button>
+
+          <div id="warning" class="hidden">
+            <p>Attention!</p>
+            <span>
+              You have <b><span id="total_nft">__</span> NFTs</b>, while the
+              capacity of the gallery is only <b>57</b>
+              <i
+                ><u
+                  >(in order not to overload the browser, at the moment this is
+                  the maximum number of NFTs that can be viewed. In the future,
+                  the optimization problem will be solved, which will increase
+                  this parameter)</u
+                ></i
+              >. Therefore, you can select a specific collection you want to
+              watch.
+            </span>
+          </div>
+
+          <div id="selectionBlock" class="hidden">
+            <div class="nftList" id="nftList">
+              <div id="chain_info"></div>
+            </div>
+          </div>
+
+          <div id="bottom_block">
+            <div id="selected_collection" class="hidden">
+              Collections selected: 0 [0 NFTs]
+            </div>
+
+            <div id="info_vote" class="hidden" style="margin-top: 30px"></div>
+
+            <button id="fetchMetadata" class="none">Get NFT metadata</button>
+            <button id="startGAME" class="none">Join Gallery</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const info_log = document.getElementById("info_log");
+      const info_log_left = document.getElementById("info_log_left");
+      const blocker = document.getElementById("blocker");
+      const instructions = document.getElementById("instructions");
+      const info_input_data = document.getElementById("info_input_data");
+
+      let objNFTs;
+      let arrayWithNFTs;
+      let arrayWithCollections;
+
+      let collectionID;
+      let collectionNameCount;
+
+      const walletAddress = document.getElementById("walletAddress");
+      const chain_id = document.getElementById("chain_id");
+
+      const infoLabel = document.getElementById("infoLabel");
+      const startGAME = document.getElementById("startGAME");
+      const fetchMetadata = document.getElementById("fetchMetadata");
+      const searchNFT = document.getElementById("searchNFT");
+
+      let notStartedGame = true;
+
+      searchNFT.addEventListener("click", () => {
+        var validRegEx = /^0x([A-Fa-f0-9]{40})$/;
+        if (
+          !walletAddress.value.trim() ||
+          !validRegEx.test(walletAddress.value.trim())
+        ) {
+          infoLabel.innerHTML = "Put a correct wallet address !";
+          walletAddress.focus();
+          walletAddress.classList.add("error");
+        } else {
+          infoLabel.innerHTML = "Waiting...";
+          searchNFT.classList.add("none");
+          info_input_data.classList.add("none");
+
+          (async () => {
+            arrayWithNFTs = await getNFTs2(walletAddress.value.trim());
+            if (arrayWithNFTs.error) {
+              infoLabel.innerHTML = `<b>Error:</b> ${arrayWithNFTs.error_message}. <br><br> Try again`;
+              return;
+            }
+
+            if (arrayWithNFTs.total_nfts == 0) {
+              startGAME.classList.remove("none");
+            } else {
+              fetchMetadata.classList.remove("none");
+            }
+
+            if (arrayWithNFTs.total_nfts > 57) {
+              document.getElementById("warning").classList.remove("hidden");
+              document.getElementById("total_nft").innerHTML = arrayWithNFTs.total_nfts;
+            }
+
+            let selectCollection = "";
+
+            
+            searchNFT.classList.add("none");
+            walletAddress.classList.add("none");
+
+            infoLabel.innerHTML = ``;
+
+            document.getElementById("selectionBlock").classList.remove("hidden");
+            document.getElementById("selected_collection").classList.remove("hidden");
+
+            addSelectionBlock(arrayWithNFTs);
+          })();
+        }
+      });
+
+      fetchMetadata.addEventListener("click", () => {
+          fetchMetadata.classList.add("none");
+          infoLabel.innerHTML = "Getting NFTs metadata, please wait.";
+          infoLabel.classList.remove("none");
+
+          document.getElementById("selected_collection").classList.add("hidden");
+          document.getElementById("selectionBlock").classList.add("hidden");
+          document.getElementById("warning").classList.add("hidden");
+          document.getElementById("bottom_block").style.display = "block";
+
+          let arrayContracts = [];
+          let nftsTotalSelected = 0;
+
+          for (var i = 0; i < document.getElementsByClassName("nft_item").length; i++) {
+            if (document.getElementsByClassName("nft_item")[i].classList.contains("checked")) {
+              arrayContracts.push(document.getElementsByClassName("nft_item")[i].getAttribute("data-contract"));
+              nftsTotalSelected += parseInt(document.getElementsByClassName("nft_item")[i].getAttribute("data-collectionCount"));
+            }
+          }
+
+
+          if (arrayContracts.length > 0) {
+            collectionNameCount = `${arrayContracts.length} [${nftsTotalSelected} NFTs]`;
+
+            newArrayWithNFTs = [];
+            let tokenMetadataPromises = []; 
+            let tokenMetadataResults = [];
+
+            arrayWithNFTs.collections.map((collection) => {
+              if (arrayContracts.includes(collection.contract)) {
+                for (var i = 0; i < collection.tokenUris.length; i++) {
+                  if(i <= 57){
+                    tokenMetadataPromises.push(fetch(collection.tokenUris[i]));
+                  }
+                }
+              }
+            });
+
+            (async () => {
+              let tokenMetadataTemp = await Promise.allSettled(tokenMetadataPromises);
+              let tokenMetadataPromises2 = [];
+
+              for(var k = 0; k < tokenMetadataTemp.length; k ++){
+                if(tokenMetadataTemp[k].status == "fulfilled"){
+                  tokenMetadataPromises2.push(tokenMetadataTemp[k].value.json());
+                } 
+              }
+
+              let tokenMetadataTemp2 = await Promise.allSettled(tokenMetadataPromises2);
+              for(var k = 0; k < tokenMetadataTemp2.length; k ++){
+                if(tokenMetadataTemp2[k].status == "fulfilled"){
+                  newArrayWithNFTs.push(tokenMetadataTemp2[k].value)
+                } 
+              }
+
+              addNFT(newArrayWithNFTs, collectionNameCount);
+
+              startGAME.classList.remove("none");
+              infoLabel.classList.add("none");
+            })();
+          } else {
+            arrayWithNFTs = [];
+            (async () => {
+              addNFT(arrayWithNFTs, "NONE");
+              startGAME.classList.remove("none");
+              infoLabel.classList.add("none");
+            })();
+          }
+      })
+
+      startGAME.addEventListener("click", () => {
+        if (notStartedGame) {
+          startGAME.innerHTML = "RESUME";
+          notStartedGame = false;
+        }
+      });
+
+      var sphereShape,
+        sphereBody,
+        world,
+        physicsMaterial,
+        walls = [],
+        balls = [],
+        ballMeshes = [],
+        boxes = [],
+        boxMeshes = [];
+
+      var camera, scene, renderer;
+      var geometry, material, mesh;
+      var controls,
+        time = Date.now();
+
+      var havePointerLock =
+        "pointerLockElement" in document ||
+        "mozPointerLockElement" in document ||
+        "webkitPointerLockElement" in document;
+
+      if (havePointerLock) {
+        var element = document.body;
+        var pointerlockchange = function (event) {
+          if (
+            document.pointerLockElement === element ||
+            document.mozPointerLockElement === element ||
+            document.webkitPointerLockElement === element
+          ) {
+            controls.enabled = true;
+            blocker.style.display = "none";
+          } else {
+            startGAME.classList.add("none");
+            infoLabel.classList.remove("none");
+            infoLabel.innerHTML = "Wait...";
+
+            setTimeout(() => {
+              infoLabel.innerHTML = "";
+              startGAME.classList.remove("none");
+              infoLabel.classList.add("none");
+            }, 1500);
+
+            controls.enabled = false;
+            blocker.style.display = "-webkit-box";
+            blocker.style.display = "-moz-box";
+            blocker.style.display = "box";
+            instructions.style.display = "";
+          }
+        };
+
+        var pointerlockerror = function (event) {
+          instructions.style.display = "";
+        };
+
+        // Hook pointer lock state change events
+        document.addEventListener(
+          "pointerlockchange",
+          pointerlockchange,
+          false
+        );
+        document.addEventListener(
+          "mozpointerlockchange",
+          pointerlockchange,
+          false
+        );
+        document.addEventListener(
+          "webkitpointerlockchange",
+          pointerlockchange,
+          false
+        );
+
+        document.addEventListener("pointerlockerror", pointerlockerror, false);
+        document.addEventListener(
+          "mozpointerlockerror",
+          pointerlockerror,
+          false
+        );
+        document.addEventListener(
+          "webkitpointerlockerror",
+          pointerlockerror,
+          false
+        );
+
+        startGAME.addEventListener(
+          "click",
+          function (event) {
+            instructions.style.display = "none";
+
+            // Ask the browser to lock the pointer
+            element.requestPointerLock =
+              element.requestPointerLock ||
+              element.mozRequestPointerLock ||
+              element.webkitRequestPointerLock;
+
+            if (/Firefox/i.test(navigator.userAgent)) {
+              var fullscreenchange = function (event) {
+                if (
+                  document.fullscreenElement === element ||
+                  document.mozFullscreenElement === element ||
+                  document.mozFullScreenElement === element
+                ) {
+                  document.removeEventListener(
+                    "fullscreenchange",
+                    fullscreenchange
+                  );
+                  document.removeEventListener(
+                    "mozfullscreenchange",
+                    fullscreenchange
+                  );
+
+                  element.requestPointerLock();
+                }
+              };
+
+              document.addEventListener(
+                "fullscreenchange",
+                fullscreenchange,
+                false
+              );
+              document.addEventListener(
+                "mozfullscreenchange",
+                fullscreenchange,
+                false
+              );
+
+              element.requestFullscreen =
+                element.requestFullscreen ||
+                element.mozRequestFullscreen ||
+                element.mozRequestFullScreen ||
+                element.webkitRequestFullscreen;
+
+              element.requestFullscreen();
+            } else {
+              element.requestPointerLock();
+            }
+          },
+          false
+        );
+      } else {
+        instructions.innerHTML =
+          "Your browser doesn't seem to support Pointer Lock API";
+      }
+
+      var dt = 1 / 90;
+
+      initCannon();
+      init();
+      animate();
+
+      function init() {
+        camera = new THREE.PerspectiveCamera(
+          75,
+          window.innerWidth / window.innerHeight,
+          0.1,
+          1000
+        );
+        let cameraTarget = new THREE.Vector3(1, 0, 0);
+        scene = new THREE.Scene();
+
+        scene.fog = new THREE.Fog(0x87ceeb, 0, 500);
+        addLights();
+        addAllWalls();
+        addWindows();
+        addNewFloors(1);
+        addCanvas();
+        controls = new PointerLockControls(camera, sphereBody);
+        scene.add(controls.getObject());
+        geometry = new THREE.PlaneGeometry(100, 100, 50, 50);
+        geometry.applyMatrix(new THREE.Matrix4().makeRotationX(-Math.PI / 2));
+
+        material = new THREE.MeshLambertMaterial({ color: 0x006400 });
+        mesh = new THREE.Mesh(geometry, material);
+        mesh.castShadow = false;
+        mesh.receiveShadow = false;
+        scene.add(mesh);
+        renderer = new THREE.WebGLRenderer();
+        renderer.shadowMapEnabled = false;
+        renderer.shadowMapSoft = false;
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(scene.fog.color, 1);
+        document.body.appendChild(renderer.domElement);
+        window.addEventListener("resize", onWindowResize, false);
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Moonriver Grant Hackathon</title>
+	<link rel="shortcut icon" href="./images/favicon.ico">
+	<link rel="stylesheet" href="./css/styles.css">
+	<link rel="stylesheet" href="./css/styles-home.css">
+	<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;600&display=swap" rel="stylesheet"> 
+
+	<script src="./js/font-awesome.js" crossorigin="anonymous"></script>
+</head>
+<body>
+	
+	<header>
+		<div class="wrapper">
+			<nav>
+				<ul class="menu">
+					<li class="active"><a href="./">Home</a></li>
+					<li><a href="./nfts.html">NFT Collection Showcase</a></li>
+					<li><a href="./mint.html">Mint NFT</a></li>
+					<li><a href="./gallery.html">3D gallery</a></li>
+				</ul>
+
+			</nav>
+		</div>
+	</header>
+	
+	<main>
+		<div class="wrapper">
+			<div class="content">
+				<div class="flex">
+
+					<div class="left">
+						<h2>NFTs Showcase & Mint Dapp -</h2>
+						
+						<p>NFT DApp on Moonriver where users can view their NFT collections (also in a 3D gallery), Mint new NFTs and share link of their collection to others</p>
+
+						<a href="./nfts.html"><button>View collections</button></a>
+						<a href="./mint.html"><button>Mint NFTs</button></a>
+					</div>
+
+					<div class="right">
+						<img id="collections-demo" src="./images/collectionRotation/1.png" >
+					</div>
+
+				</div>
+			</div>
+
+			<div class="content">
+				<h1>Future plans / To do:</h1><br>
+
+				<div class="roadmap">
+					<div class="article">
+						<div class="status "><i class="fa-solid fa-spinner"></i></div>
+						<div class="title">Add new NFT collections from Moonriver;</div>
+					</div>
+
+					<div class="article">
+						<div class="status "><i class="fa-solid fa-spinner"></i></div>
+						<div class="title">Improve the method of retrieving NFTs data: indexing data to off-chain. This will avoid API rate limiting when interacting directly with the smart contract and it will also speed up the time of receiving data from the IPFS (sometimes the delay is very large);</div>
+					</div>
+
+					<div class="article">
+						<div class="status"><i class="fa-solid fa-spinner"></i></div>
+						<div class="title">Improve the design of 3D gallery, add new buildings, the ability to interact with some objects directly from the gallery, multiplayer feature;</div>
+					</div>
+
+					<div class="article">
+						<div class="status"><i class="fa-solid fa-spinner"></i></div>
+						<div class="title">and other...</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</main>
+
+	<footer>
+		<div class="wrapper">
+			<div>
+				<p><u><b>NFTs Showcase & Mint Dapp</b></u></p><br>
+				<p>&copy;  2022</p>
+			</div>
+		</div>
+	</footer>
+	
+	<script src="./js/home.js"></script>
+</body>
+
+</html>

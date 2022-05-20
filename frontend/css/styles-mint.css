@@ -1,0 +1,200 @@
+canvas{
+    border: 1px solid black;
+    width: 350px;
+    max-width: 100%;
+    border-radius: 5px;
+    box-shadow: #000000b0 0 0 15px 3px;
+}
+
+#errBlock, #errBlock2{
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    background: #f34949;
+    margin-bottom: 20px;
+}
+
+#addressBlock {
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 5px;
+    background: #888;
+    font-size: 16px;
+}
+
+
+#connectWallet {
+    display: block;
+    max-width: 90%;
+    width: 500px;
+    padding: 10px;
+    border-radius: 4px;
+    outline: none;
+    border: 0px;
+    margin: auto;
+    margin-top: 10px;
+    background: #000;
+    color: #fff;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif !important;
+    font-size: 16px;
+    transition: color 0.3s, background 0.3s;
+}
+
+
+
+#connectWallet:hover {   
+    background: #888;
+    color: #000;
+    cursor: pointer;
+}
+
+
+
+.flex {
+    margin-top: 30px;
+    margin-bottom: 30px;
+    display: flex;
+}
+
+.flex .left{
+    width: 390px;
+    max-width: 100%;
+    margin: 0px 40px;
+}
+
+.flex .right{
+
+}
+
+
+.flex .right button {
+    font-weight: 600;
+    background: #2b5ebbd6;
+    padding: 7px 15px;
+    border-radius: 5px;
+    transition: color 0.2s;
+    border: 0px;
+    margin-bottom: 10px;
+    font-family: "Poppins";
+    font-size: 15px;
+    cursor: pointer;
+}
+
+
+.flex .right button:hover {
+    color: #fff;
+}
+
+
+.flex .right .waiting{
+    line-height: 21px;
+    background: #909990;
+    padding: 20px;
+    border-radius: 5px;
+    /*border: 2px solid #636963;*/
+}
+
+.flex .right .succes{
+    line-height: 21px;
+    background: #32e532;
+    padding: 20px;
+    border-radius: 5px;
+    /*border: 2px solid green;*/
+    margin-top: 20px;
+}
+
+.flex .right .error{
+    line-height: 21px;
+    background: #f34949;
+    padding: 20px;
+    border-radius: 5px;
+    /*border: 2px solid #890000;*/
+    margin-top: 20px;
+}
+
+
+
+#moonriverPixelsBlock {
+    flex-wrap: wrap;
+    display: flex;
+    justify-content: space-around;
+}
+
+#moonriverPixelsBlock  .nft{
+    width: 240px;
+    overflow: hidden;
+    min-width: 240px;
+    max-width: 100%;
+    margin: 20px;
+    border-radius: 5px;
+    box-shadow: #000000b0 0 0 15px 3px;
+}
+
+#moonriverPixelsBlock .nft .image{
+    padding-top: 100%;
+    background-color: #888;
+    background-size: cover;
+}
+
+#moonriverPixelsBlock .nft .info{
+    padding: 20px;
+    padding-bottom: 30px;
+}
+
+#moonriverPixelsBlock .nft .info p{
+    min-height: 32px;
+    margin-bottom: 10px;
+    line-height: 21px;
+    margin-bottom: 20px ;
+}
+
+@media (max-width: 600px) {
+    .flex {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .flex .left{
+        margin: 0px;
+        margin-bottom: 30px;
+    }
+}
+
+
+.lds-facebook {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  margin: 0 auto;
+}
+.lds-facebook div {
+  display: inline-block;
+  position: absolute;
+  left: 8px;
+  width: 16px;
+  background: #888;
+  animation: lds-facebook 1.2s cubic-bezier(0, 0.5, 0.5, 1) infinite;
+}
+.lds-facebook div:nth-child(1) {
+  left: 8px;
+  animation-delay: -0.24s;
+}
+.lds-facebook div:nth-child(2) {
+  left: 32px;
+  animation-delay: -0.12s;
+}
+.lds-facebook div:nth-child(3) {
+  left: 56px;
+  animation-delay: 0;
+}
+@keyframes lds-facebook {
+  0% {
+    top: 8px;
+    height: 64px;
+  }
+  50%, 100% {
+    top: 24px;
+    height: 32px;
+  }
+}
