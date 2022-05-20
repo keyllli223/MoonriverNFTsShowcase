@@ -8,7 +8,7 @@ NFT DApp on Moonriver where users can view their NFT collections (also in a 3D g
 ### Demonstration:
 
 1. Website live: https://showcase-nfts.netlify.app
-2. Video demo: 
+2. Video demo: https://www.youtube.com/watch?v=obEPIH_Un8s
 
 
 ### Description of project sections:
